@@ -1,0 +1,52 @@
+﻿@page
+@model RecipeScaler.Pages.ScalerModel
+@{
+    ViewData["Title"] = "Recipe Scaler";
+}
+
+<h1>Recipe Scaler</h1>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Original Servings:</label>
+        <input asp-for="OriginalServings" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Desired Servings:</label>
+        <input asp-for="DesiredServings" class="form-control" />
+    </div>
+
+    <h4>Ingredients</h4>
+    <div id="ingredients-container">
+        <div class="row mb-2 ingredient-row">
+            <div class="col">
+                <input asp-for="Ingredients[0].Name" class="form-control" placeholder="Ingredient name" />
+            </div>
+            <div class="col">
+                <input asp-for="Ingredients[0].Quantity" class="form-control" placeholder="Quantity" />
+            </div>
+            <div class="col">
+                <input asp-for="Ingredients[0].Unit" class="form-control" placeholder="Unit (e.g. cups)" />
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary mb-3" onclick="addIngredient()">Add Ingredient</button>
+
+    <button type="submit" class="btn btn-primary">Scale Recipe</button>
+</form>
+
+@if (Model.ScaledIngredients.Any())
+{
+    <h4 class="mt-4">Scaled Ingredients</h4>
+    <ul>
+        @foreach (var ingredient in Model.ScaledIngredients)
+        {
+            <li>@ingredient.Quantity @ingredient.Unit of @ingredient.Name</li>
+        }
+    </ul>
+}
+
+@section Scripts {
+    <script src="~/js/scaler.js"></script>
+}
