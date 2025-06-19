@@ -35,6 +35,9 @@
             <div class="col">
                 <input asp-for="Ingredients[0].Unit" class="form-control" placeholder="Unit (e.g. cups)" />
             </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-danger" onclick="removeIngredient(this)">Remove</button>
+            </div>
         </div>
     </div>
 
@@ -42,7 +45,7 @@
     <button type="button" class="btn btn-secondary mb-3" onclick="addIngredient()">Add Ingredient</button>
 
     <!-- Submit button to scale the recipe -->
-    <button type="submit" class="btn btn-primary">Scale Recipe</button>
+    <button type="submit" class="btn btn-primary mb-3">Scale Recipe</button>
 </form>
 
 <!-- If we have scaled ingredients to display, show them as a list -->

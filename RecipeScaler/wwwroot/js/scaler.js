@@ -22,9 +22,23 @@ function addIngredient() {
         </div>
         <div class="col">
             <input name="Ingredients[${ingredientIndex}].Unit" class="form-control" placeholder="Unit (e.g. cups)" />
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-danger" onclick="removeIngredient(this)">Remove</button>
         </div>`;
 
     // Append the row to the container and increment the index
     container.appendChild(row);
     ingredientIndex++;
+}
+
+/**
+ * Removes the ingredient row containing the clicked "Remove" button.
+ * @param {HTMLElement} button - The button that was clicked
+ */
+function removeIngredient(button) {
+    const row = button.closest(".ingredient-row");
+    if (row) {
+        row.remove();
+    }
 }
