@@ -6,15 +6,15 @@
 
 <h1>Recipe Scaler</h1>
 
-<!-- Main form for entering servings and ingredients -->
+@* Main form for entering servings and ingredients *@
 <form method="post">
-    <!-- Input: Original number of servings the recipe is for -->
+    @* Input: Original number of servings the recipe is for *@
     <div class="mb-3">
         <label>Original Servings:</label>
         <input asp-for="OriginalServings" class="form-control" />
     </div>
 
-    <!-- Input: Desired number of servings to scale the recipe to -->
+    @* Input: Desired number of servings to scale the recipe to *@
     <div class="mb-3">
         <label>Desired Servings:</label>
         <input asp-for="DesiredServings" class="form-control" />
@@ -22,9 +22,9 @@
 
     <h4>Ingredients</h4>
 
-    <!-- Container that holds all ingredient rows; JS will add more here -->
+    @* Container that holds all ingredient rows; JS will add more here *@
     <div id="ingredients-container">
-        <!-- First row is rendered manually to avoid model binding issues -->
+        @* First row is rendered manually to avoid model binding issues *@
         <div class="row mb-2 ingredient-row">
             <div class="col">
                 <input asp-for="Ingredients[0].Name" class="form-control" placeholder="Ingredient name" />
@@ -33,7 +33,19 @@
                 <input asp-for="Ingredients[0].Quantity" class="form-control" placeholder="Quantity" />
             </div>
             <div class="col">
-                <input asp-for="Ingredients[0].Unit" class="form-control" placeholder="Unit (e.g. cups)" />
+                @* Dropdown for selecting the unit of measurement *@
+                <select name="Ingredients[0].Unit" class="form-control">
+                    <option value="cup">Cups</option>
+                    <option value="tbsp">Tablespoons(tbsp)</option>
+                    <option value="tsp">Teaspoons(tsp)</option>
+                    <option value="ml">Milliliters(ml)</option>
+                    <option value="l">Liters(l)</option>
+                    <option value="g">Grams(g)</option>
+                    <option value="kg">Kilograms(kg)</option>
+                    <option value="oz">Ounces(oz)</option>
+                    <option value="lb">Pounds(lb)</option>
+                    <option value="unit">Units(e.g. 1 egg)</option>
+                </select>
             </div>
             <div class="col-auto">
                 <button type="button" class="btn btn-danger" onclick="removeIngredient(this)">Remove</button>
@@ -41,14 +53,14 @@
         </div>
     </div>
 
-    <!-- Button to add more ingredient rows dynamically -->
+    @* Button to add more ingredient rows dynamically *@
     <button type="button" class="btn btn-secondary mb-3" onclick="addIngredient()">Add Ingredient</button>
 
-    <!-- Submit button to scale the recipe -->
+    @* Submit button to scale the recipe *@
     <button type="submit" class="btn btn-primary mb-3">Scale Recipe</button>
 </form>
 
-<!-- If we have scaled ingredients to display, show them as a list -->
+@* If we have scaled ingredients to display, show them as a list *@
 @if (Model.ScaledIngredients.Any())
 {
     <h4 class="mt-4">Scaled Ingredients</h4>
@@ -60,8 +72,8 @@
     </ul>
 }
 
-<!-- Section to load page-specific scripts -->
+@* Section to load page-specific scripts *@
 @section Scripts {
-    <!-- Reference to external JavaScript file -->
+    @* Reference to external JavaScript file *@
     <script src="~/js/scaler.js"></script>
 }

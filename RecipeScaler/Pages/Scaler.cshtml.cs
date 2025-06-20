@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RecipeScaler.Models;
+using RecipeScaler.Helpers;
 
 namespace RecipeScaler.Pages
 {
@@ -38,11 +39,17 @@ namespace RecipeScaler.Pages
                 double scaleFactor = (double)DesiredServings / OriginalServings;
 
                 // Create a new list of scaled ingredients
-                ScaledIngredients = Ingredients.Select(i => new RecipeIngredient
+                ScaledIngredients = Ingredients.Select(i =>
                 {
-                    Name = i.Name,
-                    Quantity = Math.Round(i.Quantity * scaleFactor, 2), // Round to 2 decimal places for better readability
-                    Unit = i.Unit
+                    double rawQuantity = i.Quantity * scaleFactor;
+                    var (convertedQuantity, convertedUnit) = UnitConverter.Normalize(rawQuantity, i.Unit);
+
+                    return new RecipeIngredient
+                    {
+                        Name = i.Name,
+                        Quantity = convertedQuantity,
+                        Unit = convertedUnit
+                    };
                 }).ToList();
             }
         }

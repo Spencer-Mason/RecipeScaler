@@ -21,7 +21,18 @@ function addIngredient() {
             <input name="Ingredients[${ingredientIndex}].Quantity" class="form-control" placeholder="Quantity" />
         </div>
         <div class="col">
-            <input name="Ingredients[${ingredientIndex}].Unit" class="form-control" placeholder="Unit (e.g. cups)" />
+            <select name="Ingredients[${ingredientIndex}].Unit" class="form-control">
+                    <option value="cup">Cups</option>
+                    <option value="tbsp">Tablespoons(tbsp)</option>
+                    <option value="tsp">Teaspoons(tsp)</option>
+                    <option value="ml">Milliliters(ml)</option>
+                    <option value="l">Liters(l)</option>
+                    <option value="g">Grams(g)</option>
+                    <option value="kg">Kilograms(kg)</option>
+                    <option value="oz">Ounces(oz)</option>
+                    <option value="lb">Pounds(lb)</option>
+                    <option value="unit">Units(e.g. 1 egg)</option>
+                </select>
         </div>
         <div class="col-auto">
             <button type="button" class="btn btn-danger" onclick="removeIngredient(this)">Remove</button>
