@@ -37,6 +37,15 @@ function addIngredient() {
  * @param {HTMLElement} button - The button that was clicked
  */
 function removeIngredient(button) {
+    const container = document.getElementById("ingredients-container");
+
+    // Only allow removal if more than one ingredient row exists
+    const rows = container.getElementsByClassName("ingredient-row");
+    if (rows.length <= 1) {
+        alert("You must have at least one ingredient.");
+        return;
+    }
+
     const row = button.closest(".ingredient-row");
     if (row) {
         row.remove();
