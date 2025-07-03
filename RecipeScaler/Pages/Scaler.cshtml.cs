@@ -42,13 +42,13 @@ namespace RecipeScaler.Pages
                 ScaledIngredients = Ingredients.Select(i =>
                 {
                     double rawQuantity = i.Quantity * scaleFactor;
-                    var (convertedQuantity, convertedUnit) = UnitConverter.Normalize(rawQuantity, i.Unit);
+                    string friendly = UnitConverter.ToFriendlyString(rawQuantity, i.Unit);
 
                     return new RecipeIngredient
                     {
                         Name = i.Name,
-                        Quantity = convertedQuantity,
-                        Unit = convertedUnit
+                        Quantity = 0,
+                        Unit = friendly
                     };
                 }).ToList();
             }
