@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace RecipeScaler.Helpers
+﻿namespace RecipeScaler.Helpers
 {
     public static class UnitConverter
     {
@@ -26,6 +24,14 @@ namespace RecipeScaler.Helpers
             { 0.5,  "½" },
             { 0.33, "⅓" },
             { 0.25, "¼" }
+        };
+
+        // Common fractional representations for tsp
+        private static readonly Dictionary<double, string> tspFractions = new()
+        {
+            { 0.5, "½ tsp" },
+            { 0.25, "¼ tsp" },
+            { 0.125, "⅛ tsp" }
         };
 
         /// <summary>
@@ -62,14 +68,12 @@ namespace RecipeScaler.Helpers
         {
             unit = unit.ToLower();
 
-            if (unit == "cup")
+            return unit switch
             {
-                return ConvertCups(quantity);
-            }
-
-            // Use Normalize fallback for other units
-            var (newQty, newUnit) = Normalize(quantity, unit);
-            return $"{newQty} {newUnit}";
+                "cup" => ConvertCups(quantity),
+                "tbsp" => ConvertTablespoons(quantity),
+                _ => ConvertDefault(quantity, unit)
+            };
         }
 
         /// <summary>
@@ -110,6 +114,55 @@ namespace RecipeScaler.Helpers
             }
 
             return string.IsNullOrEmpty(result) ? "0 cups" : result;
+        }
+
+        private static string ConvertTablespoons(double quantity)
+        {
+            int whole = (int)Math.Floor(quantity);
+            double remainder = quantity - whole;
+
+            string result = "";
+
+            if (whole > 0)
+            {
+                result += whole == 1 ? "1 tbsp" : $"{whole} tbsp";
+            }
+
+            if (remainder >= 0.01)
+            {
+                // Convert remainder to tsp
+                var (altUnit, factor) = conversions["tbsp"];
+                double tspQty = remainder * factor;
+
+                // Try to match to a friendly tsp fraction
+                string? tspFraction = tspFractions
+                    .OrderByDescending(f => f.Key)
+                    .FirstOrDefault(f => Math.Abs(tspQty - f.Key) < 0.05).Value;
+
+                if (tspFraction != null)
+                {
+                    if (!string.IsNullOrEmpty(result)) result += " and ";
+                    result += tspFraction;
+                }
+                else if (tspQty > 0.1)
+                {
+                    if (!string.IsNullOrEmpty(result)) result += " and ";
+                    result += $"{Math.Round(tspQty)} tsp";
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(result)) result += " and ";
+                    result += "less than ⅛ tsp";
+                }
+            }
+
+            return string.IsNullOrEmpty(result) ? "0 tbsp" : result;
+        }
+
+        private static string ConvertDefault(double quantity, string unit)
+        {
+            var (qty, normalizedUnit) = Normalize(quantity, unit);
+            return $"{qty} {normalizedUnit}";
         }
     }
 }
