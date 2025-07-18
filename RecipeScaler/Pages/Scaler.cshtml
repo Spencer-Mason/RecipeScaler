@@ -24,33 +24,36 @@
 
     @* Container that holds all ingredient rows; JS will add more here *@
     <div id="ingredients-container">
-        @* First row is rendered manually to avoid model binding issues *@
-        <div class="row mb-2 ingredient-row">
-            <div class="col">
-                <input asp-for="Ingredients[0].Name" class="form-control" placeholder="Ingredient name" />
+        @for (int i = 0; i < Model.Ingredients.Count; i++)
+        {
+            <div class="row mb-2 ingredient-row">
+                <div class="col">
+                    <input asp-for="Ingredients[@i].Name" class="form-control" placeholder="Ingredient name" />
+                </div>
+                <div class="col">
+                    <input asp-for="Ingredients[@i].Quantity" class="form-control" placeholder="Quantity" />
+                </div>
+                <div class="col">
+                    @* Dropdown for selecting the unit of measurement *@
+                    <select asp-for="Ingredients[@i].Unit" class="form-control">
+                        <option value="cup">Cups</option>
+                        <option value="tbsp">Tablespoons(tbsp)</option>
+                        <option value="tsp">Teaspoons(tsp)</option>
+                        <option value="ml">Milliliters(ml)</option>
+                        <option value="l">Liters(l)</option>
+                        <option value="g">Grams(g)</option>
+                        <option value="kg">Kilograms(kg)</option>
+                        <option value="oz">Ounces(oz)</option>
+                        <option value="lb">Pounds(lb)</option>
+                        <option value="unit">Units(e.g. 1 egg)</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-danger" onclick="removeIngredient(this)">Remove</button>
+                </div>
             </div>
-            <div class="col">
-                <input asp-for="Ingredients[0].Quantity" class="form-control" placeholder="Quantity" />
-            </div>
-            <div class="col">
-                @* Dropdown for selecting the unit of measurement *@
-                <select name="Ingredients[0].Unit" class="form-control">
-                    <option value="cup">Cups</option>
-                    <option value="tbsp">Tablespoons(tbsp)</option>
-                    <option value="tsp">Teaspoons(tsp)</option>
-                    <option value="ml">Milliliters(ml)</option>
-                    <option value="l">Liters(l)</option>
-                    <option value="g">Grams(g)</option>
-                    <option value="kg">Kilograms(kg)</option>
-                    <option value="oz">Ounces(oz)</option>
-                    <option value="lb">Pounds(lb)</option>
-                    <option value="unit">Units(e.g. 1 egg)</option>
-                </select>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-danger" onclick="removeIngredient(this)">Remove</button>
-            </div>
-        </div>
+        }
+        
     </div>
 
     @* Button to add more ingredient rows dynamically *@
@@ -75,5 +78,5 @@
 @* Section to load page-specific scripts *@
 @section Scripts {
     @* Reference to external JavaScript file *@
-    <script src="~/js/scaler.js"></script>
+    <script src="~/js/scaler.js?v=@DateTime.Now.Ticks"></script>
 }
