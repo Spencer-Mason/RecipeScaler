@@ -11,13 +11,13 @@
     @* Input: Original number of servings the recipe is for *@
     <div class="mb-3">
         <label>Original Servings:</label>
-        <input asp-for="OriginalServings" class="form-control" />
+        <input asp-for="OriginalServings" class="form-control" placeholder="Enter the number of servings from the original recipe. If there is a range, use your own discretion." type="number" value="" required />
     </div>
 
     @* Input: Desired number of servings to scale the recipe to *@
     <div class="mb-3">
         <label>Desired Servings:</label>
-        <input asp-for="DesiredServings" class="form-control" />
+        <input asp-for="DesiredServings" class="form-control" placeholder="Enter the number of servings you want to scale to." type="number" value="" required />
     </div>
 
     <h4>Ingredients</h4>
@@ -31,7 +31,7 @@
                     <input asp-for="Ingredients[@i].Name" class="form-control" placeholder="Ingredient name" />
                 </div>
                 <div class="col">
-                    <input asp-for="Ingredients[@i].Quantity" class="form-control" placeholder="Quantity" />
+                    <input asp-for="Ingredients[@i].Quantity" class="form-control" placeholder="Quantity" type="number" value="" step="any" required />
                 </div>
                 <div class="col">
                     @* Dropdown for selecting the unit of measurement *@
